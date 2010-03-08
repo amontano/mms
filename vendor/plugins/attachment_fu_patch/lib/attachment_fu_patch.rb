@@ -143,7 +143,7 @@ module Technoweenie # :nodoc:
                 quality = size[0...pos].to_i
                 size = size[pos+1...size.size]
               end
-              if size[size.size-1]==35
+              if size[size.size-1]==35 # numeral sign
                 size.downcase!
                 pos = size.index('x')
                 img.crop_resized!(size[0...pos].to_i, size[pos+1...size.size-1].to_i)
