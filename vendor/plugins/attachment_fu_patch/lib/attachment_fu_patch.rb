@@ -137,20 +137,7 @@ module Technoweenie # :nodoc:
             size = [size, size] if size.is_a?(Fixnum)
             img.thumbnail!(*size)
           else
-            if size.is_a?(String)
-              pos = size.index(':')
-              if !pos.nil?
-                quality = size[0...pos].to_i
-                size = size[pos+1...size.size]
-              end
-              if size[size.size-1]==35 # numeral sign
-                size.downcase!
-                pos = size.index('x')
-                img.crop_resized!(size[0...pos].to_i, size[pos+1...size.size-1].to_i)
-              else            
-                img.change_geometry(size.to_s) { |cols, rows, image| image.resize!(cols<1 ? 1 : cols, rows<1 ? 1 : rows) }
-              end
-            end
+            quality = ImageUtils::resize_image(img, size) if size.is_a?(String)
           end
           img.strip! unless attachment_options[:keep_profile]
           data = img.to_blob do
