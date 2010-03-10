@@ -545,6 +545,7 @@ ActiveRecord::Schema.define(:version => 20100310060934) do
 
   create_table "titles", :force => true do |t|
     t.string   "title",       :null => false
+    t.integer  "creator_id"
     t.integer  "medium_id",   :null => false
     t.integer  "language_id", :null => false
     t.datetime "created_at"
