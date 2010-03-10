@@ -536,13 +536,6 @@ ActiveRecord::Schema.define(:version => 20100309074720) do
 
   add_index "sponsors", ["title"], :name => "index_sponsors_on_title", :unique => true
 
-  create_table "students", :force => true do |t|
-    t.string   "name"
-    t.integer  "age"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "transformations", :force => true do |t|
     t.integer "renderer_id",                :null => false
     t.string  "title",       :limit => 20,  :null => false
