@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100311055552) do
+ActiveRecord::Schema.define(:version => 20100315091720) do
 
   create_table "administrative_levels", :force => true do |t|
     t.string  "title",      :limit => 100, :null => false
@@ -549,6 +549,21 @@ ActiveRecord::Schema.define(:version => 20100311055552) do
 
   add_index "sponsors", ["title"], :name => "index_sponsors_on_title", :unique => true
 
+  create_table "statuses", :force => true do |t|
+    t.string   "title",       :null => false
+    t.text     "description"
+    t.integer  "position",    :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "students", :force => true do |t|
+    t.string   "name"
+    t.integer  "age"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "titles", :force => true do |t|
     t.string   "title",       :null => false
     t.integer  "creator_id"
@@ -620,6 +635,7 @@ ActiveRecord::Schema.define(:version => 20100311055552) do
     t.integer  "sequence_order"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "status_id"
   end
 
   add_index "workflows", ["medium_id"], :name => "index_workflows_on_medium_id", :unique => true
