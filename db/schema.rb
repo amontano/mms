@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100320035754) do
+ActiveRecord::Schema.define(:version => 20100707151911) do
 
   create_table "administrative_levels", :force => true do |t|
     t.string  "title",      :limit => 100, :null => false
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(:version => 20100320035754) do
     t.datetime "created_on"
     t.integer  "order"
     t.boolean  "is_problematic",                         :default => false, :null => false
+    t.integer  "feature_id"
   end
 
   add_index "administrative_units", ["title", "administrative_level_id", "parent_id"], :name => "index_units_on_title_and_level_and_parent", :unique => true
@@ -566,13 +567,15 @@ ActiveRecord::Schema.define(:version => 20100320035754) do
   end
 
   create_table "titles", :force => true do |t|
-    t.string   "title",       :null => false
+    t.text     "title",       :null => false
     t.integer  "creator_id"
     t.integer  "medium_id",   :null => false
     t.integer  "language_id", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "titles", ["title"], :name => "title"
 
   create_table "transformations", :force => true do |t|
     t.integer "renderer_id",                :null => false
@@ -584,13 +587,15 @@ ActiveRecord::Schema.define(:version => 20100320035754) do
   add_index "transformations", ["renderer_id", "title"], :name => "index_transformations_on_renderer_id_and_title", :unique => true
 
   create_table "translated_titles", :force => true do |t|
-    t.string   "title",       :null => false
+    t.text     "title",       :null => false
     t.integer  "creator_id"
     t.integer  "title_id",    :null => false
     t.integer  "language_id", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "translated_titles", ["title"], :name => "title"
 
   create_table "typescripts", :force => true do |t|
     t.string  "content_type"
@@ -629,8 +634,8 @@ ActiveRecord::Schema.define(:version => 20100320035754) do
 
   create_table "workflows", :force => true do |t|
     t.integer  "medium_id",          :null => false
-    t.string   "original_filename",  :null => false
-    t.string   "original_medium_id"
+    t.string   "original_filename"
+    t.text     "original_medium_id", :null => false
     t.string   "other_id"
     t.string   "notes"
     t.integer  "sequence_order"
@@ -640,5 +645,6 @@ ActiveRecord::Schema.define(:version => 20100320035754) do
   end
 
   add_index "workflows", ["medium_id"], :name => "index_workflows_on_medium_id", :unique => true
+  add_index "workflows", ["original_medium_id"], :name => "original_medium_id"
 
 end
