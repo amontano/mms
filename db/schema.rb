@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100707151911) do
+ActiveRecord::Schema.define(:version => 20100811203819) do
 
   create_table "administrative_levels", :force => true do |t|
     t.string  "title",      :limit => 100, :null => false
@@ -360,6 +360,18 @@ ActiveRecord::Schema.define(:version => 20100707151911) do
 
   add_index "loan_types", ["title"], :name => "index_loan_types_on_title", :unique => true
 
+  create_table "locations", :force => true do |t|
+    t.integer "medium_id",                                                :null => false
+    t.text    "spot_feature"
+    t.text    "notes"
+    t.string  "type",         :limit => 50
+    t.integer "feature_id",                                               :null => false
+    t.decimal "lat",                        :precision => 9, :scale => 6
+    t.decimal "lng",                        :precision => 9, :scale => 6
+  end
+
+  add_index "locations", ["medium_id", "feature_id"], :name => "index_locations_on_medium_id_and_feature_id", :unique => true
+
   create_table "media", :force => true do |t|
     t.integer  "photographer_id"
     t.integer  "quality_type_id"
@@ -378,16 +390,6 @@ ActiveRecord::Schema.define(:version => 20100707151911) do
 
   add_index "media", ["type", "attachment_id"], :name => "index_media_on_type_and_attachment_id"
 
-  create_table "media_administrative_locations", :force => true do |t|
-    t.integer "medium_id",                            :null => false
-    t.integer "administrative_unit_id",               :null => false
-    t.text    "spot_feature"
-    t.text    "notes"
-    t.string  "type",                   :limit => 50
-  end
-
-  add_index "media_administrative_locations", ["medium_id", "administrative_unit_id"], :name => "index_locations_on_medium_and_unit", :unique => true
-
   create_table "media_category_associations", :force => true do |t|
     t.integer  "medium_id",   :null => false
     t.integer  "category_id", :null => false
@@ -404,6 +406,14 @@ ActiveRecord::Schema.define(:version => 20100707151911) do
   end
 
   add_index "media_keyword_associations", ["medium_id", "keyword_id"], :name => "index_media_keyword_associations_on_medium_id_and_keyword_id", :unique => true
+
+  create_table "media_publishers", :force => true do |t|
+    t.integer  "publisher_id"
+    t.integer  "medium_id"
+    t.date     "date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "media_source_associations", :force => true do |t|
     t.integer  "medium_id",   :null => false
@@ -489,6 +499,14 @@ ActiveRecord::Schema.define(:version => 20100707151911) do
   end
 
   add_index "projects", ["title"], :name => "index_projects_on_title", :unique => true
+
+  create_table "publishers", :force => true do |t|
+    t.string   "title",      :null => false
+    t.integer  "place_id"
+    t.integer  "country_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "quality_types", :force => true do |t|
     t.string "title", :limit => 10, :null => false
